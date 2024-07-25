@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1086006816278",
+    "project_id": "skill-plus-a629e",
+    "storage_bucket": "skill-plus-a629e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1086006816278:android:32a1fa91c4ec44fe38cf37",
+        "android_client_info": {
+          "package_name": "com.example.skills_plus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWFLyYdyq45IsuhpmrdzLbQlrOVprTnkI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
