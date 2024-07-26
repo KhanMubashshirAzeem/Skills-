@@ -21,8 +21,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }
@@ -64,7 +63,10 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
 
 //    implementation ("com.google.firebase:firebase-bom") // Bill of Materials for Firebase libraries
-    implementation ("com.google.firebase:firebase-storage-ktx") // Firebase Storage Kotlin extensions
-    implementation ("com.google.firebase:firebase-database-ktx") // Firebase Realtime Database Kotlin extensions
+    implementation("com.google.firebase:firebase-storage-ktx") // Firebase Storage Kotlin extensions
+    implementation("com.google.firebase:firebase-database-ktx") // Firebase Realtime Database Kotlin extensions
+
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
 
 }

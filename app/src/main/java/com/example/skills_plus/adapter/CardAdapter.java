@@ -1,6 +1,7 @@
 package com.example.skills_plus.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.skills_plus.activity.PublishSkillActivity;
 import com.example.skills_plus.modal.CardModal;
 import com.example.skills_plus.R; // Replace with your actual resource identifier
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -37,6 +42,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
+
+        CardModal modal = null;
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = currentUser.getUid();
+
         // Handle potential null cardList gracefully
         if (cardList == null || cardList.isEmpty()) {
             return;
@@ -48,10 +58,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         holder.timeStampTextView.setText(card.getTimeStamp());
 
         // Use Glide to load the image
-        Glide.with(context)
-                .load(card.getImage())
-                .placeholder(R.drawable.star_icon)  // Optional placeholder image
+        Glide.with(context).load(card.getImage()).placeholder(R.drawable.star_icon)  // Optional placeholder image
                 .into(holder.imageView);
+
 
     }
 

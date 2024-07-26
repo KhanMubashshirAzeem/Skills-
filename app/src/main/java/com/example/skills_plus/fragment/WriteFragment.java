@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.skills_plus.activity.LoginActivity;
 import com.example.skills_plus.activity.PublishSkillActivity;
 import com.example.skills_plus.adapter.CardAdapter;
 import com.example.skills_plus.databinding.FragmentWriteBinding;
@@ -43,20 +44,24 @@ public class WriteFragment extends Fragment {
         // Initialize data binding
         binding = FragmentWriteBinding.inflate(inflater, container, false);
 
+        binding.progressBar.setVisibility(View.VISIBLE);
+
         // Initialize card list
         cardList = new ArrayList<>();
-
-        // Set up RecyclerView
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new CardAdapter(getContext(), cardList);
-        binding.recyclerView.setAdapter(adapter);
-
 
         // Functionality for opening PublishSkillActivity
         openPublishActivity();
 
         // Functionality for displaying data from Firebase
         displayCardView();
+
+        // Set up RecyclerView
+        adapter = new CardAdapter(getContext(), cardList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setStackFromEnd(true);
+        linearLayoutManager.setReverseLayout(true);
+        binding.recyclerView.setLayoutManager(linearLayoutManager);
+        binding.recyclerView.setAdapter(adapter);
 
         // Inflate the layout for this fragment
         return binding.getRoot();
@@ -66,7 +71,9 @@ public class WriteFragment extends Fragment {
         // Get the current user's UID and name
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
-            Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "PLease login", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            getActivity().finish();
             return;
         }
 
@@ -96,7 +103,7 @@ public class WriteFragment extends Fragment {
                         String timestamp = (String) postData.get("timestamp");
 
                         // Create a CardModal object with the retrieved data
-                        CardModal card = new CardModal(userName, title, description, imageUrl, timestamp);
+                        CardModal card = new CardModal(title, description, imageUrl, timestamp);
 
                         // Add the card to the card list
                         cardList.add(card);
@@ -104,7 +111,7 @@ public class WriteFragment extends Fragment {
                 }
                 // Update the RecyclerView adapter with the new data
                 adapter.notifyDataSetChanged();
-                Toast.makeText(getContext(), "Data loaded", Toast.LENGTH_SHORT).show();   // Facing Error
+                binding.progressBar.setVisibility(View.GONE);
             }
 
 
@@ -118,7 +125,6 @@ public class WriteFragment extends Fragment {
     }
 
 
-
     private void openPublishActivity() {
         binding.floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,4 +136,3 @@ public class WriteFragment extends Fragment {
 
 
 }
-

@@ -39,6 +39,9 @@ public class PublishSkillActivity extends AppCompatActivity {
 
     ActivityPublishSkillBinding binding;
 
+    String Title, Description, Image, PostId;
+    boolean isEditMode = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +76,10 @@ public class PublishSkillActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+
     }
 
     // Function to open image chooser
@@ -105,6 +112,8 @@ public class PublishSkillActivity extends AppCompatActivity {
     // Function to upload data to Firebase
     private void uploadDataToFirebase() {
         if (selectedImageUri != null) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.publishBtn.setVisibility(View.GONE);
             // Initialize Firebase Storage
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageReference = storage.getReference();
@@ -173,6 +182,8 @@ public class PublishSkillActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     // Show a success message and clear the input fields
                     Toast.makeText(getApplicationContext(), "Post uploaded successfully", Toast.LENGTH_SHORT).show();
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.publishBtn.setVisibility(View.VISIBLE);
                     binding.addTitle.setText("");
                     binding.addDescription.setText("");
                     binding.displayImage.setImageBitmap(null);

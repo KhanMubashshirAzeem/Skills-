@@ -19,10 +19,10 @@
 
             <ImageView
                 android:id="@+id/displayImage"
-                android:layout_width="match_parent"
-                android:layout_height="320dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:maxHeight="320dp"
+                android:minHeight="124dp"
                 android:scaleType="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -75,17 +75,41 @@
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/publishBtn"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:backgroundTint="@color/primaryColor"
-        android:padding="4dp"
-        android:text="Publish your blog"
-        android:textSize="16sp"
+        android:layout_marginStart="16sp"
+        android:layout_marginEnd="16sp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/deleteBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/primaryColor"
+            android:padding="4dp"
+            android:visibility="gone"
+            android:text="Delete blog"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/publishBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/primaryColor"
+            android:padding="4dp"
+            android:text="Publish blog"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
 
     <ProgressBar
         android:id="@+id/progressBar"

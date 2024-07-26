@@ -2,7 +2,6 @@ package com.example.skills_plus.modal;
 
 public class CardModal {
 
-    String username;
     String title;
     String Description;
     String image;
@@ -11,21 +10,13 @@ public class CardModal {
     public CardModal() {
     }
 
-    public CardModal(String username, String title, String description, String image, String timeStamp) {
-        this.username = username;
+    public CardModal(String title, String description, String image, String timeStamp) {
         this.title = title;
         Description = description;
         this.image = image;
         this.timeStamp = timeStamp;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getTitle() {
         return title;
