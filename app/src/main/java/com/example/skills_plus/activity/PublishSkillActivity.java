@@ -1,5 +1,6 @@
 package com.example.skills_plus.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -75,9 +78,6 @@ public class PublishSkillActivity extends AppCompatActivity {
                 uploadDataToFirebase();
             }
         });
-
-
-
 
 
     }
@@ -156,7 +156,7 @@ public class PublishSkillActivity extends AppCompatActivity {
         String title = binding.addTitle.getText().toString();
         String description = binding.addDescription.getText().toString();
         // Get the current timestamp
-        String timestamp = String.valueOf(System.currentTimeMillis());
+        String timestamp = getCurrentDate();
 
         // Get the current user's UID and name
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -196,6 +196,25 @@ public class PublishSkillActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    String getCurrentDate() {
+        // Get the current timestamp
+        long currentTimeMillis = System.currentTimeMillis();
+
+        // Create a Date object from the timestamp
+        Date date = new Date(currentTimeMillis);
+
+        // Define the date format
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        // Format the date
+        String formattedDate = dateFormat.format(date);
+
+        // Print the formatted date
+        System.out.println("Formatted Date: " + formattedDate);
+        return formattedDate;
+
     }
 
 

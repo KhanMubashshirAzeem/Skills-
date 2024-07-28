@@ -18,12 +18,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/imageAB"
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:scaleType="fitXY"
             android:layout_margin="6dp"
-            android:padding="2dp"
             android:background="@drawable/img_bg"
             android:src="@color/primaryColor"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -32,23 +31,24 @@
 
 
         <TextView
-            android:id="@+id/title_"
+            android:id="@+id/titleAB"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:maxLength="30"
             android:maxLines="1"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="2dp"
             android:text="Title"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintStart_toStartOf="@+id/descriptionAB"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/description"
+            android:id="@+id/descriptionAB"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:maxLines="4"
@@ -57,18 +57,18 @@
             android:text="@string/DemoDescription"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image"
-            app:layout_constraintTop_toBottomOf="@+id/title_" />
+            app:layout_constraintStart_toEndOf="@+id/imageAB"
+            app:layout_constraintTop_toBottomOf="@+id/titleAB" />
 
         <TextView
-            android:id="@+id/timeStamp"
+            android:id="@+id/timeStampAB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="4dp"
             android:text="Timestamp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description" />
+            app:layout_constraintTop_toBottomOf="@+id/descriptionAB" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

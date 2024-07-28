@@ -1,7 +1,6 @@
 package com.example.skills_plus.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,22 +11,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.skills_plus.activity.PublishSkillActivity;
-import com.example.skills_plus.modal.CardModal;
+import com.example.skills_plus.modal.BlogModal;
 import com.example.skills_plus.R; // Replace with your actual resource identifier
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
+public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.CardViewHolder> {
 
     private final Context context;
-    private final List<CardModal> cardList;
+    private final List<BlogModal> cardList;
 
     // Constructor for initializing context and cardList
-    public CardAdapter(Context context, List<CardModal> cardList) {
+    public BlogAdapter(Context context, List<BlogModal> cardList) {
         this.context = context;
         this.cardList = cardList;
     }
@@ -43,7 +40,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
 
-        CardModal modal = null;
+        BlogModal modal = null;
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String uid = currentUser.getUid();
 
@@ -52,7 +49,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             return;
         }
 
-        CardModal card = cardList.get(position);
+        BlogModal card = cardList.get(position);
         holder.titleTextView.setText(card.getTitle());
         holder.descriptionTextView.setText(card.getDescription());
         holder.timeStampTextView.setText(card.getTimeStamp());

@@ -1,16 +1,16 @@
 package com.example.skills_plus.modal;
 
-public class CardModal {
+public class AllBlogModal {
 
     String title;
     String Description;
     String image;
     String timeStamp;
 
-    public CardModal() {
+    public AllBlogModal() {
     }
 
-    public CardModal(String title, String description, String image, String timeStamp) {
+    public AllBlogModal(String title, String description, String image, String timeStamp) {
         this.title = title;
         Description = description;
         this.image = image;

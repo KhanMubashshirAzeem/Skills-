@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ReadBlogActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/blogDetailToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="8dp"
+        android:theme="?attr/actionBarTheme"
+        app:navigationIcon="@drawable/back_icon"
+        android:paddingStart="8dp"
+        app:title="Blog Detail"
+        app:titleTextAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+        app:titleTextColor="@color/white" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16sp">
+
+            <TextView
+                android:id="@+id/titleBD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="48"
+                android:maxLines="2"
+                android:padding="4dp"
+                android:textColor="@color/primaryColor"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/offBlack2" />
+
+            <TextView
+                android:id="@+id/timeStampBD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:padding="4dp" />
+
+            <ImageView
+                android:id="@+id/imageBD"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:layout_marginTop="12sp"
+                android:background="@drawable/img_bg"
+                android:minHeight="240dp"
+                android:padding="2dp"
+                android:scaleType="center" />
+
+
+            <TextView
+                android:id="@+id/descriptionBD"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:minHeight="280dp"
+                android:padding="4dp"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/offBlack2" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

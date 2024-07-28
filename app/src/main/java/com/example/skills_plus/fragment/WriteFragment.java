@@ -16,9 +16,9 @@ import android.view.ViewGroup;
 
 import com.example.skills_plus.activity.LoginActivity;
 import com.example.skills_plus.activity.PublishSkillActivity;
-import com.example.skills_plus.adapter.CardAdapter;
+import com.example.skills_plus.adapter.BlogAdapter;
 import com.example.skills_plus.databinding.FragmentWriteBinding;
-import com.example.skills_plus.modal.CardModal;
+import com.example.skills_plus.modal.BlogModal;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,8 +34,8 @@ import java.util.Map;
 public class WriteFragment extends Fragment {
 
     private FragmentWriteBinding binding; // Data binding for fragment layout
-    private CardAdapter adapter;  // Adapter for RecyclerView
-    private List<CardModal> cardList;  // List to hold card data
+    private BlogAdapter adapter;  // Adapter for RecyclerView
+    private List<BlogModal> cardList;  // List to hold card data
 
     private static final String TAG = "WriteFragment";  // Log tag
 
@@ -56,7 +56,7 @@ public class WriteFragment extends Fragment {
         displayCardView();
 
         // Set up RecyclerView
-        adapter = new CardAdapter(getContext(), cardList);
+        adapter = new BlogAdapter(getContext(), cardList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
         linearLayoutManager.setReverseLayout(true);
@@ -103,7 +103,7 @@ public class WriteFragment extends Fragment {
                         String timestamp = (String) postData.get("timestamp");
 
                         // Create a CardModal object with the retrieved data
-                        CardModal card = new CardModal(title, description, imageUrl, timestamp);
+                        BlogModal card = new BlogModal(title, description, imageUrl, timestamp);
 
                         // Add the card to the card list
                         cardList.add(card);

@@ -17,28 +17,30 @@
             android:layout_height="wrap_content"
             android:padding="16sp">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/displayImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:minHeight="124dp"
-                android:scaleType="center"
+                android:scaleType="fitXY"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_max="320dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/uploadImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/gray"
+                android:background="@drawable/img_bg"
                 android:padding="8dp"
                 android:text="Upload Image"
+                android:textColor="@color/offBlack2"
                 android:textSize="32sp"
                 android:visibility="visible"
                 app:drawableStartCompat="@drawable/add_icon"
-                app:drawableTint="@color/black"
+                app:drawableTint="@color/offBlack2"
                 app:layout_constraintBottom_toTopOf="@+id/addTitle"
                 app:layout_constraintEnd_toEndOf="@+id/displayImage"
                 app:layout_constraintStart_toStartOf="@+id/displayImage"
@@ -64,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:hint="Enter Content"
-                android:minHeight="500dp"
+                android:minHeight="420dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -93,9 +95,9 @@
             android:layout_weight="1"
             android:backgroundTint="@color/primaryColor"
             android:padding="4dp"
-            android:visibility="gone"
             android:text="Delete blog"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/publishBtn"

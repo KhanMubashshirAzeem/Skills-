@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        auth= FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser() {
-        String email =binding.etEmailLogin.getText().toString();
+        String email = binding.etEmailLogin.getText().toString();
         String password = binding.etPasswordLogin.getText().toString();
         boolean isValidated = validateData(email, password);
         if (!isValidated) {
@@ -61,21 +61,19 @@ public class LoginActivity extends AppCompatActivity {
 
     private void LoginAccountUsingFirebase(String email, String password) {
         changeInProgress(true);
-        auth.signInWithEmailAndPassword(email,password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        changeInProgress(false);
-                        if (task.isSuccessful()){
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            Toast.makeText(getApplicationContext(), "Logged In Successful", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(), task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                changeInProgress(false);
+                if (task.isSuccessful()) {
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    Toast.makeText(getApplicationContext(), "Logged In Successful", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     void changeInProgress(boolean inProgress) {
@@ -103,6 +101,11 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    public void loginToRegisterAct(View view) {
+        startActivity(new Intent(this, RegisterActivity.class));
+        finish();
     }
 
 }
