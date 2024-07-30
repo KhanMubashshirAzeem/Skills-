@@ -8,12 +8,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.skills_plus.R;
 import com.example.skills_plus.activity.LoginActivity;
 import com.example.skills_plus.activity.PublishSkillActivity;
 import com.example.skills_plus.adapter.BlogAdapter;

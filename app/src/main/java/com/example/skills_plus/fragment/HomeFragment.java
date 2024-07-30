@@ -13,10 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.skills_plus.adapter.AllBlogAdapter;
-import com.example.skills_plus.adapter.BlogAdapter;
 import com.example.skills_plus.databinding.FragmentHomeBinding;
 import com.example.skills_plus.modal.AllBlogModal;
-import com.example.skills_plus.modal.BlogModal;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +30,6 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding; // Data binding for fragment layout
     private AllBlogAdapter adapter;  // Adapter for RecyclerView
     private List<AllBlogModal> allCardList;  // List to hold card data
-
 
     private static final String TAG = "HomeFragment";  // Log tag
 
@@ -84,13 +81,14 @@ public class HomeFragment extends Fragment {
 
                         if (postData != null) {
                             // Extract data from the map
+                            String blogId = postSnapshot.getKey();
                             String title = (String) postData.get("title");
                             String description = (String) postData.get("description");
                             String imageUrl = (String) postData.get("imageUrl");
                             String timestamp = (String) postData.get("timestamp");
 
-                            // Create a CardModal object with the retrieved data
-                            AllBlogModal card = new AllBlogModal(title, description, imageUrl, timestamp);
+                            // Create a AllBlogModal object with the retrieved data
+                            AllBlogModal card = new AllBlogModal(blogId, title, description, imageUrl, timestamp);
 
                             // Add the card to the card list
                             allCardList.add(card);
@@ -107,9 +105,8 @@ public class HomeFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
                 // Handle database errors
                 Log.e(TAG, "Database error: " + error.getMessage());
-                Toast.makeText(requireContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 }
-

@@ -1,8 +1,7 @@
 package com.example.skills_plus.activity;
 
-
 import android.os.Bundle;
-
+import android.view.View;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -10,13 +9,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.example.skills_plus.R;
 import com.example.skills_plus.databinding.ActivityMainBinding;
+import com.example.skills_plus.fragment.SavedBlogFragment;
 import com.example.skills_plus.fragment.ProfileFragment;
 import com.example.skills_plus.fragment.HomeFragment;
 import com.example.skills_plus.fragment.WriteFragment;
-
 import me.ibrahimsn.lib.OnItemSelectedListener;
 import me.ibrahimsn.lib.SmoothBottomBar;
 
@@ -38,17 +36,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-
         replace(new HomeFragment());
         bottomNavigationView = binding.bottomBar;
         buttomNavSwitcher();
-
-
     }
 
-
-
-    // Switch case for fragment switching according to there ids
+    // Switch case for fragment switching according to their ids
     private void buttomNavSwitcher() {
         bottomNavigationView.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
@@ -76,5 +69,21 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    // Method to open LikedBlogFragment
+    public void openLikedBlogFragment(View view) {
+        replaceFragment(new SavedBlogFragment());
+    }
 
+    // Method to open WriteFragment
+    public void openWriteFragment(View view) {
+        replaceFragment(new WriteFragment());
+    }
+
+    // Helper method to replace fragment
+    private void replaceFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 }

@@ -1,22 +1,32 @@
 package com.example.skills_plus.modal;
 
 public class AllBlogModal {
-
-    String title;
-    String Description;
-    String image;
-    String timeStamp;
+    private String blogId;
+    private String title;
+    private String description;
+    private String image;
+    private String timeStamp;
 
     public AllBlogModal() {
+        // Default constructor required for calls to DataSnapshot.getValue(AllBlogModal.class)
     }
 
-    public AllBlogModal(String title, String description, String image, String timeStamp) {
+    public AllBlogModal(String blogId, String title, String description, String image, String timeStamp) {
+        this.blogId = blogId;
         this.title = title;
-        Description = description;
+        this.description = description;
         this.image = image;
         this.timeStamp = timeStamp;
     }
 
+    // Getters and setters
+    public String getBlogId() {
+        return blogId;
+    }
+
+    public void setBlogId(String blogId) {
+        this.blogId = blogId;
+    }
 
     public String getTitle() {
         return title;
@@ -27,11 +37,11 @@ public class AllBlogModal {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public String getImage() {
