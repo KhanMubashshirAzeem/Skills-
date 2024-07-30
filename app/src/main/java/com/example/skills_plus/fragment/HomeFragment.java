@@ -105,7 +105,6 @@ public class HomeFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
                 // Handle database errors
                 Log.e(TAG, "Database error: " + error.getMessage());
-                Toast.makeText(getContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.example.skills_plus.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.skills_plus.activity.ReadBlogActivity;
+import com.example.skills_plus.activity.UpdateDeleteActivity;
 import com.example.skills_plus.modal.BlogModal;
 import com.example.skills_plus.R; // Replace with your actual resource identifier
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -40,24 +44,30 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.CardViewHolder
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
 
-        BlogModal modal = null;
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = currentUser.getUid();
-
         // Handle potential null cardList gracefully
         if (cardList == null || cardList.isEmpty()) {
             return;
         }
 
-        BlogModal card = cardList.get(position);
-        holder.titleTextView.setText(card.getTitle());
-        holder.descriptionTextView.setText(card.getDescription());
-        holder.timeStampTextView.setText(card.getTimeStamp());
+        BlogModal modal = cardList.get(position);
+        holder.titleTextView.setText(modal.getTitle());
+        holder.descriptionTextView.setText(modal.getDescription());
+        holder.timeStampTextView.setText(modal.getTimeStamp());
 
         // Use Glide to load the image
-        Glide.with(context).load(card.getImage()).placeholder(R.drawable.star_icon)  // Optional placeholder image
+        Glide.with(context).load(modal.getImage()).placeholder(R.drawable.star_icon)  // Optional placeholder image
                 .into(holder.imageView);
 
+        holder.itemView.setOnClickListener((v) -> {
+            Intent intent = new Intent(context, UpdateDeleteActivity.class);
+            intent.putExtra("title", modal.getTitle());
+            intent.putExtra("description", modal.getDescription());
+            intent.putExtra("imageUrl", modal.getImage());
+            intent.putExtra("timestamp", modal.getTimeStamp());
+//            intent.putExtra("blogId", modal.getBlogId()); // Pass the blog ID
+            context.startActivity(intent);
+        });
 
     }
 

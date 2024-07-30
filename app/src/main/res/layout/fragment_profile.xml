@@ -8,7 +8,6 @@
     tools:context=".fragment.ProfileFragment">
 
 
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,31 +47,29 @@
             android:hint="Update your email"
             android:padding="8dp"
             android:textColor="@color/dark_gray"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/savedBlog"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="16sp"
+            android:padding="8dp"
+            android:text="Saved Blogs"
+            android:textSize="18sp" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/logoutBtn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_weight="1"
-                android:background="@drawable/custom_button"
-                android:drawableStart="@drawable/logout_icon"
-                android:drawableTint="@color/white"
-                android:padding="18sp"
-                android:text="Logout"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/logoutBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:padding="8dp"
+            android:text="Logout"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
-
 
 
 </LinearLayout>

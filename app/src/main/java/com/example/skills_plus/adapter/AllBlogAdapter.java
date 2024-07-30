@@ -79,10 +79,8 @@ public class AllBlogAdapter extends RecyclerView.Adapter<AllBlogAdapter.CardView
             context.startActivity(intent);
         });
 
-
         // Set click listener for the bookmark button
         holder.bookmarkBtn.setOnClickListener(view -> bookmarkMethod(holder, blog));
-
         // Update the bookmark icon based on the user's favorites
         updateBookmarkIcon(holder, blog.getBlogId());
 
