@@ -15,8 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.skills_plus.R;
-import com.example.skills_plus.databinding.ActivityPublishSkillBinding;
-import com.example.skills_plus.fragment.WriteFragment;
+import com.example.skills_plus.databinding.ActivityPublishBlogBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,12 +35,12 @@ import java.util.Map;
 import java.util.UUID;
 
 
-public class PublishSkillActivity extends AppCompatActivity {
+public class PublishBlogActivity extends AppCompatActivity {
 
     private static final int SELECT_PICTURE = 200;
     private Uri selectedImageUri;
 
-    ActivityPublishSkillBinding binding;
+    ActivityPublishBlogBinding binding;
 
     String Title, Description, Image, PostId;
     boolean isEditMode = false;
@@ -54,7 +53,7 @@ public class PublishSkillActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         // Inflate the layout using view binding
-        binding = ActivityPublishSkillBinding.inflate(getLayoutInflater());
+        binding = ActivityPublishBlogBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Handle system window insets for proper layout

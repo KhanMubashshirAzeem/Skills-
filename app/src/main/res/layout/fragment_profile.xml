@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:backgroundTint="@color/gray"
+    android:background="@color/gray"
     tools:context=".fragment.ProfileFragment">
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
@@ -18,68 +18,76 @@
         tools:ignore="UselessParent">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="180dp"
-            android:layout_height="180dp"
+            android:id="@+id/imageProfile"
+            android:layout_width="148dp"
+            android:layout_height="148dp"
             android:layout_margin="12dp"
-            android:padding="4dp"
-            android:src="@drawable/person_icon"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/profile_add_icon"
             app:civ_border_color="@color/dark_gray"
             app:civ_border_width="2dp" />
 
         <TextView
+            android:id="@+id/usernameProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:drawablePadding="12sp"
-            android:hint="Update username"
+            android:layout_marginTop="24dp"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:hint="name"
             android:padding="8dp"
-            android:textColor="@color/dark_gray"
-            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textSize="26sp"
             android:textStyle="bold"
-            app:drawableStartCompat="@drawable/person_icon"
+            app:drawableStartCompat="@drawable/person_icon_bold"
             app:drawableTint="@color/black" />
-
-        <View
-            android:layout_width="180dp"
-            android:layout_height="1.5dp"
-            android:layout_marginBottom="12dp"
-            android:background="@color/black" />
-
         <TextView
+            android:id="@+id/useremailProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Update your email"
+            android:layout_marginTop="24dp"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:hint="email"
             android:padding="8dp"
-            android:drawablePadding="12sp"
-            android:textColor="@color/dark_gray"
+            android:textColor="@color/black"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:drawableStartCompat="@drawable/email_icon" />
 
         <TextView
             android:id="@+id/savedBlog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16sp"
-            android:drawableStart="@drawable/file_icon"
-            android:drawablePadding="8dp"
-            android:padding="8dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/edittext_bg"
+            android:backgroundTint="@color/primaryColor"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:padding="12sp"
             android:text="Saved Blogs"
-            android:textSize="18sp" />
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/file_icon"
+            app:drawableTint="@color/white" />
 
         <TextView
             android:id="@+id/logoutBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:padding="8dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/edittext_bg"
+            android:backgroundTint="@color/primaryColor"
+            android:drawablePadding="4dp"
+            android:drawableTint="@color/white"
+            android:gravity="center"
+            android:padding="12sp"
             android:text="Logout"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:drawableStartCompat="@drawable/logout_icon"
-            android:drawableTint="@color/black"
-            android:drawablePadding="8dp"
-            />
+            app:drawableStartCompat="@drawable/logout_icon" />
 
     </LinearLayout>
 

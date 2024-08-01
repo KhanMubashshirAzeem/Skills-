@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.PublishSkillActivity">
+    tools:context=".activity.PublishBlogActivity">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Enter Title"
                 android:inputType="text"
-                android:maxLength="30"
+                android:maxLength="50"
                 android:maxLines="1"
                 android:textColor="@color/black"
                 android:textSize="18sp"

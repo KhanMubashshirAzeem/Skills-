@@ -29,7 +29,7 @@
             android:name=".activity.ReadBlogActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.PublishSkillActivity"
+            android:name=".activity.PublishBlogActivity"
             android:exported="false" />
         <activity
             android:name=".SplashScreenActivity"
