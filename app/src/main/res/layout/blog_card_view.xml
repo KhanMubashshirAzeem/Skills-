@@ -77,6 +77,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/blogId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BlogId"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/timeStamp"
+            app:layout_constraintStart_toEndOf="@+id/image" />
+
+        <TextView
             android:id="@+id/timeStamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

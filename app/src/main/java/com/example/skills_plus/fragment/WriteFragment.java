@@ -81,7 +81,6 @@ public class WriteFragment extends Fragment {
         }
 
         String uid = currentUser.getUid();
-        String userName = currentUser.getDisplayName();
 
         // Reference to the user's posts in Firebase Database
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("posts");
@@ -104,9 +103,13 @@ public class WriteFragment extends Fragment {
                         String description = (String) postData.get("description");
                         String imageUrl = (String) postData.get("imageUrl");
                         String timestamp = (String) postData.get("timestamp");
+                        String blogId = (String) postData.get("blogId");
+
+                        Log.d("WriteFragment", "Retrieved blogId: " + blogId);
+
 
                         // Create a CardModal object with the retrieved data
-                        BlogModal card = new BlogModal(title, description, imageUrl, timestamp);
+                        BlogModal card = new BlogModal(title, description, imageUrl, timestamp, blogId);
 
                         // Add the card to the card list
                         cardList.add(card);
@@ -122,7 +125,7 @@ public class WriteFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
                 // Handle database errors (optional)
                 Log.e(TAG, "Database error: " + error.getMessage());
-                Toast.makeText(requireContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

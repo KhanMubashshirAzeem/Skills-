@@ -6,15 +6,17 @@ public class BlogModal {
     String Description;
     String image;
     String timeStamp;
+    String blogId;
 
     public BlogModal() {
     }
 
-    public BlogModal(String title, String description, String image, String timeStamp) {
+    public BlogModal(String title, String description, String image, String timeStamp, String blogId) {
         this.title = title;
         Description = description;
         this.image = image;
         this.timeStamp = timeStamp;
+        this.blogId = blogId;
     }
 
 
@@ -48,5 +50,13 @@ public class BlogModal {
 
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public String getBlogId() {
+        return blogId;
+    }
+
+    public void setBlogId(String blogId) {
+        this.blogId = blogId;
     }
 }

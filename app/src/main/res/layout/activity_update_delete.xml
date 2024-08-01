@@ -71,7 +71,7 @@
                 android:id="@+id/imageUpdate"
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
-                android:background="@color/dark_gray"
+                android:background="@drawable/img_bg"
                 android:layout_marginTop="12sp"
                 android:minHeight="240dp"
                 android:scaleType="center" />
@@ -82,9 +82,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
+                android:gravity="start"
+                android:textColor="@color/black"
+                android:paddingBottom="48dp"
                 android:layout_marginTop="16dp"
                 android:minHeight="280dp"
-                android:padding="4dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
                 android:textSize="16sp" />
 
             <View

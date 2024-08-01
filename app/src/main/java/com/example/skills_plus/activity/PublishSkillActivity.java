@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -152,51 +153,54 @@ public class PublishSkillActivity extends AppCompatActivity {
 
     // Function to store data in the database
     private void storeDataInDatabase(String imageUrl) {
-        // Get the title and description from the input fields
         String title = binding.addTitle.getText().toString();
         String description = binding.addDescription.getText().toString();
-        // Get the current timestamp
         String timestamp = getCurrentDate();
 
-        // Get the current user's UID and name
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(getApplicationContext(), "User not authenticated", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String uid = currentUser.getUid();
         String userName = currentUser.getDisplayName();
 
-        // Reference to the user's posts
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("posts");
-        String postId = databaseRef.push().getKey();
+        String blogId = databaseRef.push().getKey();  // Generate unique ID for the post
 
-        // Prepare the post data
+        Log.d("PublishSkillActivity", "Generated blogId: " + blogId);
+
+
+        if (blogId == null) {
+            Toast.makeText(getApplicationContext(), "Failed to generate post ID", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Map<String, Object> postData = new HashMap<>();
         postData.put("title", title);
         postData.put("description", description);
         postData.put("imageUrl", imageUrl);
         postData.put("timestamp", timestamp);
-        postData.put("userName", userName); // Add the user's name to the post data
+        postData.put("blogId", blogId);  // Store the blogId in the post data
 
-        // Save the post data to the database
-        databaseRef.child(postId).setValue(postData).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseRef.child(blogId).setValue(postData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(Task<Void> task) {
                 if (task.isSuccessful()) {
-                    // Show a success message and clear the input fields
                     Toast.makeText(getApplicationContext(), "Post uploaded successfully", Toast.LENGTH_SHORT).show();
                     binding.progressBar.setVisibility(View.GONE);
                     binding.publishBtn.setVisibility(View.VISIBLE);
                     binding.addTitle.setText("");
                     binding.addDescription.setText("");
                     binding.displayImage.setImageBitmap(null);
-                    // Redirect to another fragment or activity
-                    Intent intent = new Intent(getApplicationContext(), WriteFragment.class);
-                    finish();
+                    finish();  // Close the activity after uploading
                 } else {
-                    // Show an error message if the post upload fails
                     Toast.makeText(getApplicationContext(), "Post upload failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
 
     String getCurrentDate() {
         // Get the current timestamp
