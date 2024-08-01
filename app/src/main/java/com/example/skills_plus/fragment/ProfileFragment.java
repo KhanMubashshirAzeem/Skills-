@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.skills_plus.activity.LoginActivity;
+import com.example.skills_plus.activity.SavedBlogActivity;
 import com.example.skills_plus.databinding.FragmentProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -36,7 +37,7 @@ public class ProfileFragment extends Fragment {
         binding.savedBlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), SavedBlogFragment.class));
+                startActivity(new Intent(getContext(), SavedBlogActivity.class));
             }
         });
 

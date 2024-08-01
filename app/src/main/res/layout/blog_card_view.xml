@@ -5,14 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:backgroundTint="@color/white"
     android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
     android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
     android:layout_marginBottom="4dp"
+    android:backgroundTint="@color/white"
     app:cardCornerRadius="6dp"
-    app:cardElevation="4dp"
-    >
+    app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,9 +25,9 @@
             android:id="@+id/image"
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:scaleType="fitXY"
             android:layout_margin="4dp"
             android:background="@drawable/img_bg"
+            android:scaleType="fitXY"
             android:src="@color/primaryColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,22 +46,35 @@
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@+id/image"
+
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:maxLines="4"
-            android:minLines="4"
+            android:maxLines="5"
+            android:minLines="5"
             android:padding="4dp"
             android:text="@string/DemoDescription"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/timeStamp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image"
-            app:layout_constraintTop_toBottomOf="@+id/title_" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:src="@drawable/edit_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/timeStamp"
@@ -71,8 +83,7 @@
             android:padding="4dp"
             android:text="Timestamp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

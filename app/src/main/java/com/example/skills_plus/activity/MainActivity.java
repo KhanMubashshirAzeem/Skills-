@@ -1,7 +1,6 @@
 package com.example.skills_plus.activity;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +12,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.skills_plus.R;
 import com.example.skills_plus.databinding.ActivityMainBinding;
-import com.example.skills_plus.fragment.SavedBlogFragment;
 import com.example.skills_plus.fragment.ProfileFragment;
 import com.example.skills_plus.fragment.HomeFragment;
 import com.example.skills_plus.fragment.WriteFragment;

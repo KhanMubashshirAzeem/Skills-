@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +19,11 @@ import com.example.skills_plus.modal.BlogModal;
 import com.example.skills_plus.R; // Replace with your actual resource identifier
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -45,6 +50,10 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.CardViewHolder
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            return;
+        }
+
         // Handle potential null cardList gracefully
         if (cardList == null || cardList.isEmpty()) {
             return;
@@ -59,17 +68,21 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.CardViewHolder
         Glide.with(context).load(modal.getImage()).placeholder(R.drawable.star_icon)  // Optional placeholder image
                 .into(holder.imageView);
 
-        holder.itemView.setOnClickListener((v) -> {
-            Intent intent = new Intent(context, UpdateDeleteActivity.class);
-            intent.putExtra("title", modal.getTitle());
-            intent.putExtra("description", modal.getDescription());
-            intent.putExtra("imageUrl", modal.getImage());
-            intent.putExtra("timestamp", modal.getTimeStamp());
-//            intent.putExtra("blogId", modal.getBlogId()); // Pass the blog ID
-            context.startActivity(intent);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, UpdateDeleteActivity.class);
+                intent.putExtra("title", modal.getTitle());
+                intent.putExtra("description", modal.getDescription());
+                intent.putExtra("timestamp",modal.getTimeStamp());
+                intent.putExtra("image",modal.getImage());
+
+                context.startActivity(intent);
+            }
         });
 
     }
+
 
     @Override
     public int getItemCount() {

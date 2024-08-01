@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:backgroundTint="@color/gray"
     tools:context=".fragment.ProfileFragment">
 
 
@@ -29,11 +30,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:drawablePadding="12sp"
             android:hint="Update username"
             android:padding="8dp"
             android:textColor="@color/dark_gray"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/person_icon"
+            app:drawableTint="@color/black" />
 
         <View
             android:layout_width="180dp"
@@ -46,14 +50,18 @@
             android:layout_height="wrap_content"
             android:hint="Update your email"
             android:padding="8dp"
+            android:drawablePadding="12sp"
             android:textColor="@color/dark_gray"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            app:drawableStartCompat="@drawable/email_icon" />
 
         <TextView
             android:id="@+id/savedBlog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16sp"
+            android:drawableStart="@drawable/file_icon"
+            android:drawablePadding="8dp"
             android:padding="8dp"
             android:text="Saved Blogs"
             android:textSize="18sp" />
@@ -67,7 +75,11 @@
             android:text="Logout"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/logout_icon"
+            android:drawableTint="@color/black"
+            android:drawablePadding="8dp"
+            />
 
     </LinearLayout>
 
