@@ -32,6 +32,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private ActivityRegisterBinding binding;
+    private DatabaseReference databaseRef;
+
+    private static final String USERS_PATH = "users";
+    private static final String USER_DETAILS_PATH = "userDetail";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         auth = FirebaseAuth.getInstance();
+        databaseRef = FirebaseDatabase.getInstance().getReference(USERS_PATH);
 
         navigateFromActivities();
         binding.btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -58,10 +63,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void createAccount() {
-        String username = binding.etUsernameRegister.getText().toString();
-        String email = binding.etEmailRegister.getText().toString();
-        String password = binding.etPasswordRegister.getText().toString();
-        String confirmPassword = binding.etConfirmPassRegister.getText().toString();
+        String username = binding.etUsernameRegister.getText().toString().trim();
+        String email = binding.etEmailRegister.getText().toString().trim();
+        String password = binding.etPasswordRegister.getText().toString().trim();
+        String confirmPassword = binding.etConfirmPassRegister.getText().toString().trim();
 
         boolean isValidated = validateData(email, password, confirmPassword);
         if (!isValidated) {
@@ -93,15 +98,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void storeUsersDetail(FirebaseUser currentUser, String username, String email) {
         String uid = currentUser.getUid();
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("userDetail");
+        DatabaseReference userDetailRef = databaseRef.child(uid).child(USER_DETAILS_PATH);
 
-        // Create a user map
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("username", username);
         userMap.put("useremail", email);
 
-        // Store user details in the database
-        databaseRef.setValue(userMap).addOnCompleteListener(task -> {
+        userDetailRef.setValue(userMap).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(RegisterActivity.this, "User details stored successfully", Toast.LENGTH_SHORT).show();
             } else {
@@ -161,7 +164,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        // Create and show the Alert Dialog box
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }

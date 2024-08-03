@@ -197,8 +197,13 @@ public class ProfileFragment extends Fragment {
         String useremail = snapshot.child("useremail").getValue(String.class);
         String profilePhotoUrl = snapshot.child("profilePhoto").getValue(String.class);
 
-        binding.userNameProfile.setText(username);
-        binding.userEmailProfile.setText(useremail);
+        if (username != null) {
+            binding.userNameProfile.setText(username);
+        }
+
+        if (useremail != null) {
+            binding.userEmailProfile.setText(useremail);
+        }
 
         if (profilePhotoUrl != null) {
             if (isAdded()) { // Ensure the fragment is added before performing Glide operation
