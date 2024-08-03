@@ -11,7 +11,7 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarUpdateBlog"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="55dp"
         android:background="?attr/colorPrimary"
         android:elevation="8dp"
         android:paddingStart="8dp"
@@ -28,7 +28,10 @@
     <ScrollView
         android:id="@+id/ScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarUpdateBlog">
 
         <LinearLayout
@@ -51,9 +54,9 @@
                 android:id="@+id/titleUpdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@null"
                 android:maxLength="48"
                 android:maxLines="2"
-                android:background="@null"
                 android:padding="4dp"
                 android:textColor="@color/offBlack"
                 android:textSize="24sp"
@@ -71,8 +74,8 @@
                 android:id="@+id/imageUpdate"
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
-                android:background="@drawable/img_bg"
                 android:layout_marginTop="12sp"
+                android:background="@drawable/img_bg"
                 android:minHeight="240dp"
                 android:scaleType="center" />
 
@@ -80,15 +83,14 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/descriptionUpdate"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:background="@null"
                 android:gravity="start"
-                android:textColor="@color/black"
-                android:paddingBottom="48dp"
-                android:layout_marginTop="16dp"
                 android:minHeight="280dp"
                 android:paddingStart="4dp"
                 android:paddingEnd="4dp"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <View
@@ -103,6 +105,7 @@
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16sp"
@@ -119,9 +122,10 @@
             android:layout_margin="12dp"
             android:layout_weight="1"
             android:backgroundTint="@color/primaryColor"
-            android:padding="4dp"
+            android:minHeight="32dp"
+            android:padding="8dp"
             android:text="Delete blog"
-            android:textSize="16sp" />
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/updateBlog"
@@ -130,9 +134,11 @@
             android:layout_margin="12dp"
             android:layout_weight="1"
             android:backgroundTint="@color/primaryColor"
-            android:padding="4dp"
+            android:minHeight="32dp"
+            android:padding="8dp"
             android:text="Update blog"
-            android:textSize="16sp" />
+            android:textSize="12sp" />
+
 
     </LinearLayout>
 

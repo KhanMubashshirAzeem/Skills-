@@ -23,9 +23,6 @@
             android:name=".activity.UpdateDeleteActivity"
             android:exported="false" />
         <activity
-            android:name=".fragment.SavedBlogFragment"
-            android:exported="false" />
-        <activity
             android:name=".activity.ReadBlogActivity"
             android:exported="false" />
         <activity
@@ -36,7 +33,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

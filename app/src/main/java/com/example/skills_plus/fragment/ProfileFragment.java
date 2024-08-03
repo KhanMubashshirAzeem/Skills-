@@ -1,6 +1,7 @@
 package com.example.skills_plus.fragment;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -42,44 +43,41 @@ public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
     private FirebaseAuth auth;
     private Uri selectedImageUri;
+    private ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         auth = FirebaseAuth.getInstance();
 
-        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showLogoutConfirmationDialog();
-            }
-        });
+        // Initialize ProgressDialog
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
 
-        binding.savedBlog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), SavedBlogActivity.class));
-            }
-        });
-
-        binding.imageProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseImage();
-            }
-        });
-
+        setListeners();
         retrieveUserDetails();
 
         return binding.getRoot();
     }
 
+    /**
+     * Set listeners for buttons and image view.
+     */
+    private void setListeners() {
+        binding.logoutBtn.setOnClickListener(view -> showLogoutConfirmationDialog());
+        binding.savedBlog.setOnClickListener(view -> startActivity(new Intent(getContext(), SavedBlogActivity.class)));
+        binding.imageProfile.setOnClickListener(view -> chooseImage());
+    }
+
+    /**
+     * Opens the image chooser to select a profile picture.
+     */
     private void chooseImage() {
-        Intent i = new Intent();
-        i.setType("image/*");
-        i.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
     }
 
     @Override
@@ -95,8 +93,13 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    /**
+     * Uploads the selected image to Firebase Storage and saves its URL in Firebase Realtime Database.
+     */
     private void uploadImageToDB() {
         if (selectedImageUri != null) {
+            progressDialog.show(); // Show progress dialog
+
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
             if (currentUser == null) {
                 Toast.makeText(getContext(), "No user logged in", Toast.LENGTH_SHORT).show();
@@ -105,51 +108,56 @@ public class ProfileFragment extends Fragment {
             String uid = currentUser.getUid();
             DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("userDetail").child("profilePhoto");
 
-            // Initialize Firebase Storage
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageReference = storage.getReference();
-
-            // Generating the unique file name for the image
             String filename = UUID.randomUUID().toString() + ".jpg";
             StorageReference imageRef = storageReference.child("profile/" + filename);
 
-            imageRef.putFile(selectedImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // Get the download URL of the uploaded image
-                    imageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            if (task.isSuccessful()) {
-                                Uri downloadUri = task.getResult();
-                                // Store the data in the database along with the image URL
-                                databaseRef.setValue(downloadUri.toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(getContext(), "Image Saved To Database", Toast.LENGTH_SHORT).show();
-                                            // Load the new profile photo into the ImageView
-                                            Glide.with(getContext()).load(downloadUri).into(binding.imageProfile);
-                                        } else {
-                                            Toast.makeText(getContext(), "Failed to save image URL to database", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-                            } else {
-                                Toast.makeText(getContext(), "Failed to get download URL", Toast.LENGTH_SHORT).show();
-                            }
+            imageRef.putFile(selectedImageUri)
+                    .addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Uri downloadUri = task.getResult();
+                            saveImageUrlToDatabase(databaseRef, downloadUri);
+                        } else {
+                            showToast("Failed to get download URL");
+                            progressDialog.dismiss(); // Dismiss progress dialog
                         }
+                    }))
+                    .addOnFailureListener(e -> {
+                        showToast("Image upload failed: " + e.getMessage());
+                        progressDialog.dismiss(); // Dismiss progress dialog
                     });
-                }
-            }).addOnFailureListener(e -> {
-                Toast.makeText(getContext(), "Image upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            });
         } else {
-            Toast.makeText(getContext(), "No image selected", Toast.LENGTH_SHORT).show();
+            showToast("No image selected");
         }
     }
 
+    /**
+     * Saves the image URL to Firebase Realtime Database.
+     *
+     * @param databaseRef  Reference to the Firebase database location.
+     * @param downloadUri  URI of the uploaded image.
+     */
+    private void saveImageUrlToDatabase(DatabaseReference databaseRef, Uri downloadUri) {
+        databaseRef.setValue(downloadUri.toString()).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                showToast("Image Saved To Database");
+                if (isAdded()) { // Ensure the fragment is added before performing Glide operation
+                    Glide.with(getContext()).load(downloadUri).into(binding.imageProfile);
+                }
+            } else {
+                showToast("Failed to save image URL to database");
+            }
+            progressDialog.dismiss(); // Dismiss progress dialog
+        });
+    }
+
+    /**
+     * Retrieves user details and profile photo from Firebase Realtime Database.
+     */
     private void retrieveUserDetails() {
+        progressDialog.show(); // Show progress dialog
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
@@ -160,46 +168,69 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        String username = snapshot.child("username").getValue(String.class);
-                        String useremail = snapshot.child("useremail").getValue(String.class);
-                        String profilePhotoUrl = snapshot.child("profilePhoto").getValue(String.class);
-
-                        binding.usernameProfile.setText(username);
-                        binding.useremailProfile.setText(useremail);
-
-                        if (profilePhotoUrl != null) {
-                            Glide.with(getContext()).load(profilePhotoUrl).into(binding.imageProfile);
-                        } else {
-                            binding.imageProfile.setImageResource(R.drawable.person_icon_bold); // Set your default image resource here
-                        }
+                        setUserData(snapshot);
                     } else {
                         Log.e("UserDetail", "No user details found");
                     }
+                    progressDialog.dismiss(); // Dismiss progress dialog
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     Log.e("UserDetail", "Failed to fetch user details", error.toException());
+                    progressDialog.dismiss(); // Dismiss progress dialog
                 }
             });
         } else {
             Log.e("UserDetail", "No user logged in");
+            progressDialog.dismiss(); // Dismiss progress dialog
         }
     }
 
+    /**
+     * Sets the user data (name, email, profile photo) in the UI.
+     *
+     * @param snapshot  DataSnapshot containing user details.
+     */
+    private void setUserData(DataSnapshot snapshot) {
+        String username = snapshot.child("username").getValue(String.class);
+        String useremail = snapshot.child("useremail").getValue(String.class);
+        String profilePhotoUrl = snapshot.child("profilePhoto").getValue(String.class);
+
+        binding.userNameProfile.setText(username);
+        binding.userEmailProfile.setText(useremail);
+
+        if (profilePhotoUrl != null) {
+            if (isAdded()) { // Ensure the fragment is added before performing Glide operation
+                Glide.with(getContext()).load(profilePhotoUrl).into(binding.imageProfile);
+            }
+        } else {
+            binding.imageProfile.setImageResource(R.drawable.person_icon_bold); // Set your default image resource here
+        }
+    }
+
+    /**
+     * Displays a confirmation dialog for logout.
+     */
     private void showLogoutConfirmationDialog() {
         new AlertDialog.Builder(getContext())
                 .setTitle("Logout")
                 .setMessage("Are you sure you want to logout?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        auth.signOut();
-                        startActivity(new Intent(getContext(), LoginActivity.class));
-                        getActivity().finish(); // Ensure the user cannot return to the ProfileFragment
-                    }
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    auth.signOut();
+                    startActivity(new Intent(getContext(), LoginActivity.class));
+                    getActivity().finish(); // Ensure the user cannot return to the ProfileFragment
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
+
+    /**
+     * Shows a toast message.
+     *
+     * @param message  Message to be displayed.
+     */
+    private void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

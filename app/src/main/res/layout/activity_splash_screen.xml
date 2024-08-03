@@ -5,30 +5,27 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
     android:layout_margin="24sp"
+    android:background="@color/white"
+    android:gravity="center_vertical"
     android:orientation="vertical"
     tools:context=".SplashScreenActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16sp"
-        android:text="Hello Student"
-        android:textColor="@color/primaryColor"
-        android:textSize="34sp"
-        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:src="@drawable/img" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:padding="16sp"
-        android:text="Welcome our to Skill plus App"
+        android:padding="8sp"
+        android:layout_gravity="center_horizontal"
+        android:text="Blogify"
         android:textColor="@color/primaryColor"
-        android:textSize="24sp"
+        android:textSize="32sp"
         android:textStyle="bold" />
-
-
 
 </LinearLayout>
