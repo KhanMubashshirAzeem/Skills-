@@ -118,9 +118,9 @@ public class AllBlogAdapter extends RecyclerView.Adapter<AllBlogAdapter.CardView
     private void bookmarkMethod(CardViewHolder holder, AllBlogModal blog) {
         String userUid = auth.getCurrentUser().getUid();
         String blogId = blog.getBlogId();
-        DatabaseReference userRef = dbRef.child("users").child(userUid).child("favorites");
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userUid);
 
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        userRef.child("favorites").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Map<String, Boolean> bookmarks = (Map<String, Boolean>) snapshot.getValue();
@@ -137,7 +137,7 @@ public class AllBlogAdapter extends RecyclerView.Adapter<AllBlogAdapter.CardView
                     holder.bookmarkBtn.setImageResource(R.drawable.bookmark_icon_blue); // Bookmark icon
                 }
 
-                userRef.setValue(bookmarks).addOnCompleteListener(task -> {
+                userRef.child("favorites").setValue(bookmarks).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(context, "Bookmark updated", Toast.LENGTH_SHORT).show();
                     } else {
@@ -159,7 +159,7 @@ public class AllBlogAdapter extends RecyclerView.Adapter<AllBlogAdapter.CardView
         String userUid = auth.getCurrentUser().getUid();
         DatabaseReference userRef = dbRef.child("users").child(userUid).child("favorites");
 
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists() && snapshot.hasChild(blogId)) {
@@ -167,11 +167,13 @@ public class AllBlogAdapter extends RecyclerView.Adapter<AllBlogAdapter.CardView
                 } else {
                     holder.bookmarkBtn.setImageResource(R.drawable.bookmark_icon_gray); // Default bookmark icon
                 }
+                notifyItemChanged(holder.getPosition());
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 // Handle error
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

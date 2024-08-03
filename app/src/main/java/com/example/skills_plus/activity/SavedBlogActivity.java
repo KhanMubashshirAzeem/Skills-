@@ -79,32 +79,16 @@ public class SavedBlogActivity extends AppCompatActivity {
     }
 
     private void fetchBlogDetails(String blogId) {
-        userRef.addValueEventListener(new ValueEventListener() {
+
+        DatabaseReference blogRef = FirebaseDatabase.getInstance().getReference("blogs").child(blogId);
+
+        blogRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                        // Iterate through each user's posts
-                        for (DataSnapshot postSnapshot : userSnapshot.child("posts").getChildren()) {
-                            Map<String, Object> postData = (Map<String, Object>) postSnapshot.getValue();
-                            if (postData != null && postSnapshot.getKey().equals(blogId)) {
-                                // Extract data from the map
-                                String blogId1 = postSnapshot.getKey();
-                                String title = (String) postData.get("title");
-                                String description = (String) postData.get("description");
-                                String imageUrl = (String) postData.get("imageUrl");
-                                String timestamp = (String) postData.get("timestamp");
-                                //Toast.makeText(SavedBlogActivity.this, postSnapshot.getKey() + " and " + blogId, Toast.LENGTH_SHORT).show();
-
-                                // Create a AllBlogModal object with the retrieved data
-                                AllBlogModal card1 = new AllBlogModal(blogId1, title, description, imageUrl, timestamp);
-
-                                // Add the card to the card list
-                                allBlogModalList.add(card1);
-                                allBlogAdapter.notifyDataSetChanged();
-                            }
-                        }
-                    }
+                AllBlogModal blogs = snapshot.getValue(AllBlogModal.class);
+                if (blogs != null) {
+                    allBlogModalList.add(blogs);
+                    allBlogAdapter.notifyDataSetChanged();
                 }
                 blogsFetched++;
                 if (blogsFetched == blogsToFetch) {
@@ -112,6 +96,40 @@ public class SavedBlogActivity extends AppCompatActivity {
                     Toast.makeText(SavedBlogActivity.this, "success", Toast.LENGTH_SHORT).show();
                 }
             }
+
+//        blogRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.exists()) {
+//                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+//                        // Iterate through each user's posts
+//                        for (DataSnapshot postSnapshot : userSnapshot.child("posts").getChildren()) {
+//                            Map<String, Object> postData = (Map<String, Object>) postSnapshot.getValue();
+//                            if (postData != null && postSnapshot.getKey().equals(blogId)) {
+//                                // Extract data from the map
+//                                String blogId1 = postSnapshot.getKey();
+//                                String title = (String) postData.get("title");
+//                                String description = (String) postData.get("description");
+//                                String imageUrl = (String) postData.get("imageUrl");
+//                                String timestamp = (String) postData.get("timestamp");
+//                                //Toast.makeText(SavedBlogActivity.this, postSnapshot.getKey() + " and " + blogId, Toast.LENGTH_SHORT).show();
+//
+//                                // Create a AllBlogModal object with the retrieved data
+//                                AllBlogModal card1 = new AllBlogModal(blogId1, title, description, imageUrl, timestamp);
+//
+//                                // Add the card to the card list
+//                                allBlogModalList.add(card1);
+//                                allBlogAdapter.notifyDataSetChanged();
+//                            }
+//                        }
+//                    }
+//                }
+//                blogsFetched++;
+//                if (blogsFetched == blogsToFetch) {
+//                    binding.progressBar.setVisibility(View.GONE);
+//                    Toast.makeText(SavedBlogActivity.this, "success", Toast.LENGTH_SHORT).show();
+//                }
+//            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

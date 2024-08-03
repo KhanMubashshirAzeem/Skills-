@@ -77,8 +77,7 @@ public class UpdateDeleteActivity extends AppCompatActivity {
         binding.timeUpdate.setText(timestamp);
         Glide.with(this).load(previousImageUrl).into(binding.imageUpdate);
 
-        blogRef = FirebaseDatabase.getInstance().getReference().child("users")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("posts").child(blogId);
+        blogRef = FirebaseDatabase.getInstance().getReference().child("blogs").child(blogId);
 
         binding.updateBlog.setOnClickListener(new View.OnClickListener() {
             @Override

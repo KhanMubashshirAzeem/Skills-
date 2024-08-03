@@ -1,5 +1,7 @@
 package com.example.skills_plus.activity;
 
+import static android.app.ProgressDialog.show;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.skills_plus.R;
 import com.example.skills_plus.databinding.ActivityPublishBlogBinding;
+import com.example.skills_plus.modal.AllBlogModal;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -162,10 +165,10 @@ public class PublishBlogActivity extends AppCompatActivity {
             return;
         }
         String uid = currentUser.getUid();
-        String userName = currentUser.getDisplayName();
 
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("posts");
-        String blogId = databaseRef.push().getKey();  // Generate unique ID for the post
+       // DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("posts");
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("blogs");
+        String blogId = databaseRef.child("blogs").push().getKey();  // Generate unique ID for the post
 
         Log.d("PublishSkillActivity", "Generated blogId: " + blogId);
 
@@ -175,29 +178,41 @@ public class PublishBlogActivity extends AppCompatActivity {
             return;
         }
 
-        Map<String, Object> postData = new HashMap<>();
-        postData.put("title", title);
-        postData.put("description", description);
-        postData.put("imageUrl", imageUrl);
-        postData.put("timestamp", timestamp);
-        postData.put("blogId", blogId);  // Store the blogId in the post data
+//        Map<String, Object> postData = new HashMap<>();
+//        postData.put("title", title);
+//        postData.put("description", description);
+//        postData.put("imageUrl", imageUrl);
+//        postData.put("timestamp", timestamp);
+//        postData.put("blogId", blogId);  // Store the blogId in the post data
 
-        databaseRef.child(blogId).setValue(postData).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Post uploaded successfully", Toast.LENGTH_SHORT).show();
-                    binding.progressBar.setVisibility(View.GONE);
-                    binding.publishBtn.setVisibility(View.VISIBLE);
-                    binding.addTitle.setText("");
-                    binding.addDescription.setText("");
-                    binding.displayImage.setImageBitmap(null);
-                    finish();  // Close the activity after uploading
-                } else {
-                    Toast.makeText(getApplicationContext(), "Post upload failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        AllBlogModal blog = new AllBlogModal(uid, blogId, title, description, imageUrl, timestamp);
+
+        databaseRef.child(blogId).setValue(blog).addOnSuccessListener(aVoid -> {
+                    Toast.makeText(getApplicationContext(), "Blog added successfully", Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+
+
+
+//        databaseRef.child(blogId).setValue(postData).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(Task<Void> task) {
+//                if (task.isSuccessful()) {
+//                    Toast.makeText(getApplicationContext(), "Post uploaded successfully", Toast.LENGTH_SHORT).show();
+//                    binding.progressBar.setVisibility(View.GONE);
+//                    binding.publishBtn.setVisibility(View.VISIBLE);
+//                    binding.addTitle.setText("");
+//                    binding.addDescription.setText("");
+//                    binding.displayImage.setImageBitmap(null);
+//                    finish();  // Close the activity after uploading
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Post upload failed", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
     }
 
 

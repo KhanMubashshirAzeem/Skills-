@@ -1,6 +1,7 @@
 package com.example.skills_plus.modal;
 
 public class AllBlogModal {
+    private String authorId;
     private String blogId;
     private String title;
     private String description;
@@ -19,7 +20,24 @@ public class AllBlogModal {
         this.timeStamp = timeStamp;
     }
 
+    public AllBlogModal(String authorId, String blogId, String title, String description, String image, String timeStamp) {
+        this.authorId = authorId;
+        this.blogId = blogId;
+        this.title = title;
+        this.description = description;
+        this.image = image;
+        this.timeStamp = timeStamp;
+    }
+
     // Getters and setters
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
+    }
+
     public String getBlogId() {
         return blogId;
     }

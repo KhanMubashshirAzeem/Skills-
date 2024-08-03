@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
         allCardList = new ArrayList<>();
 
         // Functionality for displaying data from Firebase
-        displayCardView();
+        fetchCardView();
 
         // Set up RecyclerView
         adapter = new AllBlogAdapter(getContext(), allCardList);
@@ -58,54 +58,79 @@ public class HomeFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private void displayCardView() {
-        // Reference to all users' posts in Firebase Database
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users");
+    private void fetchCardView() {
 
-        // Add a ValueEventListener to listen for changes in the database
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("blogs");
+
         databaseRef.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // Clear any existing data (optional)
-                allCardList.clear();  // Clear the card list before populating with new data
-                Log.d(TAG, "Data snapshot: " + snapshot.toString());  // Log the snapshot for debugging
+                allCardList.clear();
 
-                // Iterate through all users
-                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-
-                    // Iterate through each user's posts
-                    for (DataSnapshot postSnapshot : userSnapshot.child("posts").getChildren()) {
-                        // Get the data for each post
-                        Map<String, Object> postData = (Map<String, Object>) postSnapshot.getValue();
-
-                        if (postData != null) {
-                            // Extract data from the map
-                            String blogId = postSnapshot.getKey();
-                            String title = (String) postData.get("title");
-                            String description = (String) postData.get("description");
-                            String imageUrl = (String) postData.get("imageUrl");
-                            String timestamp = (String) postData.get("timestamp");
-
-                            // Create a AllBlogModal object with the retrieved data
-                            AllBlogModal card = new AllBlogModal(blogId, title, description, imageUrl, timestamp);
-
-                            // Add the card to the card list
-                            allCardList.add(card);
-                        }
-                    }
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    AllBlogModal blogs = dataSnapshot.getValue(AllBlogModal.class);
+                    allCardList.add(blogs);
                 }
-
-                // Update the RecyclerView adapter with the new data
                 adapter.notifyDataSetChanged();
                 binding.progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle database errors
-                Log.e(TAG, "Database error: " + error.getMessage());
+                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
+
+//    private void displayCardView() {
+//        // Reference to all users' posts in Firebase Database
+//        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("blogs");
+//
+//        // Add a ValueEventListener to listen for changes in the database
+//        databaseRef.addValueEventListener(new ValueEventListener() {
+//            @SuppressLint("NotifyDataSetChanged")
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                // Clear any existing data (optional)
+//                allCardList.clear();  // Clear the card list before populating with new data
+//                Log.d(TAG, "Data snapshot: " + snapshot.toString());  // Log the snapshot for debugging
+//
+//                // Iterate through all users
+//                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+//
+//                    // Iterate through each user's posts
+//                    for (DataSnapshot postSnapshot : userSnapshot.child("posts").getChildren()) {
+//                        // Get the data for each post
+//                        Map<String, Object> postData = (Map<String, Object>) postSnapshot.getValue();
+//
+//                        if (postData != null) {
+//                            // Extract data from the map
+//                            String blogId = postSnapshot.getKey();
+//                            String title = (String) postData.get("title");
+//                            String description = (String) postData.get("description");
+//                            String imageUrl = (String) postData.get("imageUrl");
+//                            String timestamp = (String) postData.get("timestamp");
+//
+//                            // Create a AllBlogModal object with the retrieved data
+//                            AllBlogModal card = new AllBlogModal(blogId, title, description, imageUrl, timestamp);
+//
+//                            // Add the card to the card list
+//                            allCardList.add(card);
+//                        }
+//                    }
+//                }
+//
+//                // Update the RecyclerView adapter with the new data
+//                adapter.notifyDataSetChanged();
+//                binding.progressBar.setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                // Handle database errors
+//                Log.e(TAG, "Database error: " + error.getMessage());
+//            }
+//        });
+//    }
 }
