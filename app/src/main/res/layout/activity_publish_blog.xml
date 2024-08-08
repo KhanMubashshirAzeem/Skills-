@@ -18,8 +18,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16sp">
+            android:layout_height="match_parent"
+            android:padding="16sp"
+            >
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/displayImage"
@@ -67,12 +68,12 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/addDescription"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="start"
-                android:hint="Enter Content"
-                android:minHeight="420dp"
+                android:hint="Enter Description"
                 android:textColor="@color/black"
                 android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/addTitle" />

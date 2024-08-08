@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical"
     android:backgroundTint="@color/white"
     android:layout_marginStart="8dp"
     android:layout_marginTop="4dp"
@@ -18,6 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,66 +25,68 @@
 
         <ImageView
             android:id="@+id/imageAB"
-            android:layout_width="132dp"
-            android:layout_height="132dp"
-            android:layout_margin="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
             android:background="@drawable/img_bg"
+            android:padding="2dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:scaleType="fitXY"
             android:src="@color/primaryColor"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"  />
 
         <TextView
             android:id="@+id/titleAB"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
             android:maxLength="30"
             android:maxLines="1"
             android:text="Title"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/bookmarkBtn"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/descriptionAB"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toStartOf="@+id/timeStampAB"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageAB" />
 
         <ImageView
             android:id="@+id/bookmarkBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="2dp"
             android:src="@drawable/bookmark_icon_gray"
-            android:layout_marginEnd="4dp"
-            android:padding="4dp"
-            app:layout_constraintBottom_toTopOf="@+id/descriptionAB"
+            app:layout_constraintBottom_toBottomOf="@+id/descriptionAB"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/descriptionAB" />
 
         <TextView
             android:id="@+id/descriptionAB"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:maxLines="4"
             android:minLines="4"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
             android:text="@string/DemoDescription"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/timeStampAB"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageAB"
+            app:layout_constraintEnd_toStartOf="@+id/bookmarkBtn"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleAB" />
 
         <TextView
             android:id="@+id/timeStampAB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:padding="4dp"
             android:text="Timestamp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/titleAB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/titleAB" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -13,10 +13,13 @@
     <color name="gray">#d9d9d9</color>
     <color name="dark_gray">#a6a6a6</color>
     <color name="offBlack">#0d0d0d</color>
-    <color name="offBlack2">#1a1a1a</color>
+    <color name="offBlack2">#2D2C2C</color>
     <color name="red">#e60000</color>
 
     <!-- Background colors -->
     <color name="backgroundLight">#FFFFFF</color>
     <color name="backgroundDark">#0d0d0d</color>
+
+    <color name="primaryColorTrans">#BF008BDC</color>
+
 </resources>
