@@ -1,7 +1,5 @@
 package com.example.skills_plus.activity;
 
-import static android.app.ProgressDialog.show;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,13 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.example.skills_plus.R;
 import com.example.skills_plus.databinding.ActivityPublishBlogBinding;
 import com.example.skills_plus.modal.AllBlogModal;
@@ -30,7 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -107,7 +102,7 @@ public class PublishBlogActivity extends AppCompatActivity {
                 // Update the preview image in the layout
                 binding.displayImage.setImageURI(selectedImageUri);
                 // Hide the upload button
-                binding.uploadImage.setVisibility(View.GONE);
+                binding.uploadImage.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -178,13 +173,6 @@ public class PublishBlogActivity extends AppCompatActivity {
             return;
         }
 
-//        Map<String, Object> postData = new HashMap<>();
-//        postData.put("title", title);
-//        postData.put("description", description);
-//        postData.put("imageUrl", imageUrl);
-//        postData.put("timestamp", timestamp);
-//        postData.put("blogId", blogId);  // Store the blogId in the post data
-
         AllBlogModal blog = new AllBlogModal(uid, blogId, title, description, imageUrl, timestamp);
 
         databaseRef.child(blogId).setValue(blog).addOnSuccessListener(aVoid -> {
@@ -194,25 +182,6 @@ public class PublishBlogActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
-
-
-
-//        databaseRef.child(blogId).setValue(postData).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(Task<Void> task) {
-//                if (task.isSuccessful()) {
-//                    Toast.makeText(getApplicationContext(), "Post uploaded successfully", Toast.LENGTH_SHORT).show();
-//                    binding.progressBar.setVisibility(View.GONE);
-//                    binding.publishBtn.setVisibility(View.VISIBLE);
-//                    binding.addTitle.setText("");
-//                    binding.addDescription.setText("");
-//                    binding.displayImage.setImageBitmap(null);
-//                    finish();  // Close the activity after uploading
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "Post upload failed", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
     }
 
 
