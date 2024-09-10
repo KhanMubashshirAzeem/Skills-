@@ -52,7 +52,7 @@ public class ProfileFragment extends Fragment {
 
         // Initialize ProgressDialog
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage("Uploading profile image...");
         progressDialog.setCancelable(false);
 
         setListeners();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,6 +15,9 @@
         android:elevation="8dp"
         android:paddingStart="8dp"
         android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/back_icon"
         app:title="Blog Detail"
         app:titleTextAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
@@ -22,8 +25,13 @@
 
 
     <ScrollView
+        android:id="@+id/blogContentLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blogDetailToolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,10 +72,10 @@
                 android:id="@+id/imageBD"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="2.25dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12sp"
                 android:minHeight="280dp"
+                android:padding="2.25dp"
                 android:scaleType="fitCenter" />
 
 
@@ -91,4 +99,16 @@
 
     </ScrollView>
 
-</LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/downloadButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12sp"
+        android:background="@color/blue"
+        android:backgroundTint="@color/blue"
+        android:src="@drawable/file_download"
+        android:tint="@color/blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
