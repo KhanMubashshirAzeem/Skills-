@@ -4,12 +4,12 @@
 ### Hi everyone,
 ### I’ve made an app called Blogify using Android Studio, Firebase, Java, and XML.
 ### With Blogify, users can:
-### Sign up and create an account
-### Post updates that show up on their page and in the community
-### Edit and delete their posts
-### Bookmark their favorite posts
-### Change their profile picture
-## Download Blog as a PDF.
+#### Sign up and create an account
+#### Post updates that show up on their page and in the community
+#### Edit and delete their posts
+#### Bookmark their favorite posts
+#### Change their profile picture
+#### Download Blog as a PDF.
 #### I’m really proud of this project and can’t wait to see how it grows!
 
 
