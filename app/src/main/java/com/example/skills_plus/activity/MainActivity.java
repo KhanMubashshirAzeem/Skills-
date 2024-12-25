@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.skills_plus.R;
 import com.example.skills_plus.databinding.ActivityMainBinding;
 import com.example.skills_plus.fragment.ProfileFragment;
-import com.example.skills_plus.fragment.HomeFragment;
+import com.example.skills_plus.fragment.CommunityFragment;
 import com.example.skills_plus.fragment.WriteFragment;
 
 import me.ibrahimsn.lib.OnItemSelectedListener;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        replace(new HomeFragment());
+        replace(new CommunityFragment());
         bottomNavigationView = binding.bottomBar;
         buttomNavSwitcher();
     }
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onItemSelect(int i) {
                 switch (i) {
                     case 0:
-                        replace(new HomeFragment());
+                        replace(new CommunityFragment());
                         break;
                     case 1:
                         replace(new WriteFragment());
