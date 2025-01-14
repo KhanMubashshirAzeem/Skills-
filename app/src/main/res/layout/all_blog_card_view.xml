@@ -1,79 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="12sp"
-    android:layout_marginEnd="8dp"
-    android:padding="4sp"
-    android:background="@color/white"
+    android:layout_marginStart="4dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="4dp"
     app:cardCornerRadius="6dp"
     app:cardElevation="12sp">
 
-
-    <ImageView
-        android:id="@+id/imageAB"
-        android:layout_width="120dp"
-        android:layout_height="100dp"
-        android:padding="2dp"
-        android:scaleType="fitXY"
-        android:src="@color/primaryColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/titleAB"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:maxLength="30"
-        android:maxLines="1"
-        android:padding="2dp"
-        android:text="Title"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/timeStampAB"
-        app:layout_constraintStart_toEndOf="@+id/imageAB"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/white"
+        android:elevation="12dp"
+        android:padding="8dp">
 
+        <ImageView
+            android:id="@+id/imageAB"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:padding="2dp"
+            android:scaleType="fitXY"
+            android:src="@color/primaryColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/bookmarkBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:src="@drawable/bookmark_icon_gray"
-        app:layout_constraintBottom_toBottomOf="@+id/imageAB"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/descriptionAB"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="top"
+            android:maxLines="3"
+            android:minLines="3"
+            android:padding="4dp"
+            android:text="@string/DemoDescription"
+            android:textColor="@color/dark_gray"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toStartOf="@+id/imageAB"
+            app:layout_constraintHorizontal_bias="0.449"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleAB" />
 
-    <TextView
-        android:id="@+id/descriptionAB"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:maxLines="4"
-        android:minLines="4"
-        android:padding="4dp"
-        android:text="@string/DemoDescription"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@+id/bookmarkBtn"
-        app:layout_constraintStart_toEndOf="@+id/imageAB"
-        app:layout_constraintTop_toBottomOf="@id/titleAB" />
+        <TextView
+            android:id="@+id/userNameAB"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="username"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/userPictureAB"
+            app:layout_constraintStart_toEndOf="@+id/userPictureAB"
+            app:layout_constraintTop_toTopOf="@+id/userPictureAB" />
 
-    <TextView
-        android:id="@+id/timeStampAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:text="Timestamp"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/titleAB"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/titleAB" />
+        <TextView
+            android:id="@+id/timeStampAB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:padding="2dp"
+            android:text="Timestamp"
+            android:textColor="@color/dark_gray"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionAB" />
 
+        <ImageView
+            android:id="@+id/userPictureAB"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/person_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/titleAB"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxLength="35"
+            android:maxLines="1"
+            android:padding="4dp"
+            android:text="Title"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/imageAB"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userPictureAB" />
+
+        <ImageView
+            android:id="@+id/bookmarkBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/bookmark_icon_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/timeStampAB"
+            app:layout_constraintEnd_toStartOf="@+id/imageAB"
+            app:layout_constraintTop_toTopOf="@+id/timeStampAB" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
