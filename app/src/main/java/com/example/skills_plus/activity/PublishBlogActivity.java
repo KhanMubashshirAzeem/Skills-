@@ -14,7 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.example.skills_plus.R;
 import com.example.skills_plus.databinding.ActivityPublishBlogBinding;
-import com.example.skills_plus.modal.AllBlogModal;
+import com.example.skills_plus.modal.CommunityBlogModal;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,8 +28,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 
@@ -173,7 +171,7 @@ public class PublishBlogActivity extends AppCompatActivity {
             return;
         }
 
-        AllBlogModal blog = new AllBlogModal(uid, blogId, title, description, imageUrl, timestamp);
+        CommunityBlogModal blog = new CommunityBlogModal(uid, blogId, title, description, imageUrl, timestamp);
 
         databaseRef.child(blogId).setValue(blog).addOnSuccessListener(aVoid -> {
                     Toast.makeText(getApplicationContext(), "Blog added successfully", Toast.LENGTH_SHORT).show();

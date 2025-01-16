@@ -11,7 +11,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.skills_plus.activity.LoginActivity;
 import com.example.skills_plus.activity.MainActivity;
 import com.example.skills_plus.activity.RegisterActivity;
 import com.google.firebase.auth.FirebaseAuth;

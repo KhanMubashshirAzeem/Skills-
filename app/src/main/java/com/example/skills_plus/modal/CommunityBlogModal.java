@@ -1,6 +1,6 @@
 package com.example.skills_plus.modal;
 
-public class AllBlogModal {
+public class CommunityBlogModal {
     private String authorId;
     private String blogId;
     private String title;
@@ -8,11 +8,11 @@ public class AllBlogModal {
     private String image;
     private String timeStamp;
 
-    public AllBlogModal() {
+    public CommunityBlogModal() {
         // Default constructor required for calls to DataSnapshot.getValue(AllBlogModal.class)
     }
 
-    public AllBlogModal(String blogId, String title, String description, String image, String timeStamp) {
+    public CommunityBlogModal(String blogId, String title, String description, String image, String timeStamp) {
         this.blogId = blogId;
         this.title = title;
         this.description = description;
@@ -20,7 +20,7 @@ public class AllBlogModal {
         this.timeStamp = timeStamp;
     }
 
-    public AllBlogModal(String authorId, String blogId, String title, String description, String image, String timeStamp) {
+    public CommunityBlogModal(String authorId, String blogId, String title, String description, String image, String timeStamp) {
         this.authorId = authorId;
         this.blogId = blogId;
         this.title = title;

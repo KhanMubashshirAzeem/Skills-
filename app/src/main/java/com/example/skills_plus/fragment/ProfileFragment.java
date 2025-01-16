@@ -2,13 +2,13 @@ package com.example.skills_plus.fragment;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,11 +19,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.skills_plus.R;
 import com.example.skills_plus.activity.LoginActivity;
-import com.example.skills_plus.activity.SavedBlogActivity;
+import com.example.skills_plus.activity.MainActivity;
+import com.example.skills_plus.adapter.CommunityBlogAdapter;
 import com.example.skills_plus.databinding.FragmentProfileBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.example.skills_plus.modal.CommunityBlogModal;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,8 +32,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class ProfileFragment extends Fragment {
@@ -51,12 +51,14 @@ public class ProfileFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
 
         // Initialize ProgressDialog
-        progressDialog = new ProgressDialog(getContext());
+        progressDialog = new ProgressDialog(requireContext());
         progressDialog.setMessage("Uploading profile image...");
         progressDialog.setCancelable(false);
 
         setListeners();
         retrieveUserDetails();
+        savedBlogRecyclerView();
+        onClickForBackPress();
 
         return binding.getRoot();
     }
@@ -66,7 +68,6 @@ public class ProfileFragment extends Fragment {
      */
     private void setListeners() {
         binding.logoutBtn.setOnClickListener(view -> showLogoutConfirmationDialog());
-        binding.savedBlog.setOnClickListener(view -> startActivity(new Intent(getContext(), SavedBlogActivity.class)));
         binding.imageProfile.setOnClickListener(view -> chooseImage());
     }
 
@@ -113,20 +114,18 @@ public class ProfileFragment extends Fragment {
             String filename = UUID.randomUUID().toString() + ".jpg";
             StorageReference imageRef = storageReference.child("profile/" + filename);
 
-            imageRef.putFile(selectedImageUri)
-                    .addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Uri downloadUri = task.getResult();
-                            saveImageUrlToDatabase(databaseRef, downloadUri);
-                        } else {
-                            showToast("Failed to get download URL");
-                            progressDialog.dismiss(); // Dismiss progress dialog
-                        }
-                    }))
-                    .addOnFailureListener(e -> {
-                        showToast("Image upload failed: " + e.getMessage());
-                        progressDialog.dismiss(); // Dismiss progress dialog
-                    });
+            imageRef.putFile(selectedImageUri).addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    saveImageUrlToDatabase(databaseRef, downloadUri);
+                } else {
+                    showToast("Failed to get download URL");
+                    progressDialog.dismiss(); // Dismiss progress dialog
+                }
+            })).addOnFailureListener(e -> {
+                showToast("Image upload failed: " + e.getMessage());
+                progressDialog.dismiss(); // Dismiss progress dialog
+            });
         } else {
             showToast("No image selected");
         }
@@ -135,8 +134,8 @@ public class ProfileFragment extends Fragment {
     /**
      * Saves the image URL to Firebase Realtime Database.
      *
-     * @param databaseRef  Reference to the Firebase database location.
-     * @param downloadUri  URI of the uploaded image.
+     * @param databaseRef Reference to the Firebase database location.
+     * @param downloadUri URI of the uploaded image.
      */
     private void saveImageUrlToDatabase(DatabaseReference databaseRef, Uri downloadUri) {
         databaseRef.setValue(downloadUri.toString()).addOnCompleteListener(task -> {
@@ -190,7 +189,7 @@ public class ProfileFragment extends Fragment {
     /**
      * Sets the user data (name, email, profile photo) in the UI.
      *
-     * @param snapshot  DataSnapshot containing user details.
+     * @param snapshot DataSnapshot containing user details.
      */
     private void setUserData(DataSnapshot snapshot) {
         String username = snapshot.child("username").getValue(String.class);
@@ -218,24 +217,98 @@ public class ProfileFragment extends Fragment {
      * Displays a confirmation dialog for logout.
      */
     private void showLogoutConfirmationDialog() {
-        new AlertDialog.Builder(getContext())
-                .setTitle("Logout")
-                .setMessage("Are you sure you want to logout?")
-                .setPositiveButton("Yes", (dialogInterface, i) -> {
-                    auth.signOut();
-                    startActivity(new Intent(getContext(), LoginActivity.class));
-                    getActivity().finish(); // Ensure the user cannot return to the ProfileFragment
-                })
-                .setNegativeButton("No", null)
-                .show();
+        new AlertDialog.Builder(getContext()).setTitle("Logout").setMessage("Are you sure you want to logout?").setPositiveButton("Yes", (dialogInterface, i) -> {
+            auth.signOut();
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            getActivity().finish(); // Ensure the user cannot return to the ProfileFragment
+        }).setNegativeButton("No", null).show();
     }
 
     /**
      * Shows a toast message.
      *
-     * @param message  Message to be displayed.
+     * @param message Message to be displayed.
      */
     private void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void savedBlogRecyclerView() {
+        // Initialize RecyclerView
+        List<CommunityBlogModal> allBlogModalList = new ArrayList<>();
+        CommunityBlogAdapter allBlogAdapter = new CommunityBlogAdapter(requireContext(), allBlogModalList);
+
+        binding.saveBlogsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.saveBlogsRecyclerView.setAdapter(allBlogAdapter);
+
+        // Fetch Bookmarked Blogs
+        fetchBookmarkedBlogs(allBlogModalList, allBlogAdapter);
+    }
+
+    private void fetchBookmarkedBlogs(List<CommunityBlogModal> allBlogModalList, CommunityBlogAdapter allBlogAdapter) {
+        binding.progressBarSave.setVisibility(View.VISIBLE);
+
+        String userId = FirebaseAuth.getInstance().getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("favorites");
+        DatabaseReference blogRef = FirebaseDatabase.getInstance().getReference("blogs");
+
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                allBlogModalList.clear();
+                if (snapshot.exists()) {
+                    int blogsToFetch = (int) snapshot.getChildrenCount();
+                    int[] blogsFetched = {0};
+
+                    for (DataSnapshot blogIdSnapshot : snapshot.getChildren()) {
+                        String blogId = blogIdSnapshot.getKey();
+                        blogRef.child(blogId).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                CommunityBlogModal blog = snapshot.getValue(CommunityBlogModal.class);
+                                if (blog != null) {
+                                    allBlogModalList.add(blog);
+                                    allBlogAdapter.notifyDataSetChanged();
+                                }
+                                blogsFetched[0]++;
+                                if (blogsFetched[0] == blogsToFetch) {
+                                    binding.progressBarSave.setVisibility(View.GONE);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                blogsFetched[0]++;
+                                if (blogsFetched[0] == blogsToFetch) {
+                                    binding.progressBarSave.setVisibility(View.GONE);
+                                }
+                                Toast.makeText(getContext(), "Error fetching blog details", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } else {
+                    binding.progressBarSave.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "No bookmarks found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                binding.progressBarSave.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "Error fetching bookmarks", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    public void onClickForBackPress() {
+        binding.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(getContext()).setTitle("Exit").setMessage("Are you sure you want to exit?").setPositiveButton("Yes", (dialogInterface, i) -> {
+                    getActivity().finish();
+                }).setNegativeButton("No", null).show();
+            }
+        });
     }
 }

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.skills_plus.R;
 import com.example.skills_plus.activity.ReadBlogActivity;
-import com.example.skills_plus.modal.AllBlogModal;
+import com.example.skills_plus.modal.CommunityBlogModal;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,22 +23,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AllBlogAdapter extends RecyclerView.Adapter<AllBlogAdapter.CardViewHolder> {
+public class CommunityBlogAdapter extends RecyclerView.Adapter<CommunityBlogAdapter.CardViewHolder> {
 
     private final Context context;
-    private final List<AllBlogModal> allCardList;
+    private final List<CommunityBlogModal> allCardList;
     private final FirebaseDatabase database;
     private final DatabaseReference dbRef;
     private final FirebaseAuth auth;
 
-    // Constructor for initializing context and cardList
-    public AllBlogAdapter(Context context, List<AllBlogModal> allCardList) {
+    // Constructor
+    public CommunityBlogAdapter(Context context, List<CommunityBlogModal> allCardList) {
         this.context = context;
         this.allCardList = allCardList;
         this.database = FirebaseDatabase.getInstance();
@@ -56,13 +54,14 @@ public class AllBlogAdapter extends RecyclerView.Adapter<AllBlogAdapter.CardView
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        AllBlogModal blog = allCardList.get(position);
+        CommunityBlogModal blog = allCardList.get(position);
 
         // Handle potential null cardList gracefully
         if (allCardList == null || allCardList.isEmpty()) {
             return;
         }
 
+        // Set data to views
         holder.titleTextView.setText(blog.getTitle());
         holder.descriptionTextView.setText(blog.getDescription());
         holder.timeStampTextView.setText(blog.getTimeStamp());
@@ -82,19 +81,22 @@ public class AllBlogAdapter extends RecyclerView.Adapter<AllBlogAdapter.CardView
         });
 
         // Set click listener for the bookmark button
-        holder.bookmarkBtn.setOnClickListener(view -> bookmarkMethod(holder, blog));
-        // Update the bookmark icon based on the user's favorites
-        updateBookmarkIcon(holder, blog.getBlogId());
-
-
+        if (auth.getCurrentUser() != null) {
+            updateBookmarkIcon(holder, blog.getBlogId());
+            holder.bookmarkBtn.setOnClickListener(view -> bookmarkMethod(holder, blog));
+        } else {
+            // Disable bookmark feature for non-logged-in users
+            holder.bookmarkBtn.setImageResource(R.drawable.bookmark_icon_gray);
+            holder.bookmarkBtn.setEnabled(false);
+        }
     }
-
 
     @Override
     public int getItemCount() {
         return allCardList != null ? allCardList.size() : 0;
     }
 
+    // ViewHolder class
     public static class CardViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView titleTextView;
@@ -103,7 +105,6 @@ public class AllBlogAdapter extends RecyclerView.Adapter<AllBlogAdapter.CardView
         private final TextView timeStampTextView;
         private final ImageView bookmarkBtn;
 
-        // Constructor for initializing views
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -116,8 +117,8 @@ public class AllBlogAdapter extends RecyclerView.Adapter<AllBlogAdapter.CardView
         }
     }
 
-// ********************** Custom method for bookmark feature ************************************
-    private void bookmarkMethod(CardViewHolder holder, AllBlogModal blog) {
+    // Custom method for bookmark feature
+    private void bookmarkMethod(CardViewHolder holder, CommunityBlogModal blog) {
         String userUid = auth.getCurrentUser().getUid();
         String blogId = blog.getBlogId();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userUid);
@@ -155,8 +156,7 @@ public class AllBlogAdapter extends RecyclerView.Adapter<AllBlogAdapter.CardView
         });
     }
 
-    // *************************** Custom feature for update bookmark ******************************
-
+    // Custom method for updating bookmark icon
     private void updateBookmarkIcon(CardViewHolder holder, String blogId) {
         String userUid = auth.getCurrentUser().getUid();
         DatabaseReference userRef = dbRef.child("users").child(userUid).child("favorites");
@@ -174,18 +174,8 @@ public class AllBlogAdapter extends RecyclerView.Adapter<AllBlogAdapter.CardView
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle error
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-
-
 }
-
-
-//Summary of Changes:
-//Bind the Bookmark Button Click Event: In onBindViewHolder, add an onClick listener for the bookmark button.
-//Implement bookmarkMethod: Add or remove the blog from the user's favorites and update the bookmark icon accordingly.
-//Update Bookmark Icon: Check if the blog is already bookmarked and set the correct icon in updateBookmarkIcon.

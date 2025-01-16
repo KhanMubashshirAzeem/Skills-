@@ -1,9 +1,7 @@
 package com.example.skills_plus.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,15 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.skills_plus.activity.LoginActivity;
 import com.example.skills_plus.activity.PublishBlogActivity;
-import com.example.skills_plus.adapter.AllBlogAdapter;
 import com.example.skills_plus.adapter.BlogAdapter;
 import com.example.skills_plus.databinding.FragmentWriteBinding;
-import com.example.skills_plus.modal.AllBlogModal;
 import com.example.skills_plus.modal.BlogModal;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class WriteFragment extends Fragment {
 

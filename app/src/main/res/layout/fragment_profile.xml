@@ -5,52 +5,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".fragment.ProfileFragment">
 
-
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="16sp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="8dp"
-        tools:ignore="UselessParent">
-
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:padding="6dp"
+        android:background="@drawable/frame1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/backButton"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
             android:padding="8dp"
+            android:onClick="onClickForBackPress"
             android:src="@drawable/back_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/black" />
+            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="Profile"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/logoutBtn"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:padding="8dp"
+            android:src="@drawable/logout_icon"
+            app:tint="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/profile_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageProfile"
             android:layout_width="148dp"
             android:layout_height="148dp"
-            android:layout_marginTop="64dp"
-            android:src="@drawable/photo"
+            android:layout_marginTop="18sp"
             android:padding="8dp"
+            android:src="@drawable/photo"
             app:civ_border_color="@color/dark_gray"
             app:civ_border_width="2dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -66,8 +80,8 @@
             android:padding="4dp"
             android:text="@string/name"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="normal"
+            android:textSize="21sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
@@ -76,93 +90,41 @@
             android:id="@+id/userEmailProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
             android:gravity="center"
             android:padding="4dp"
             android:text="@string/email"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="21sp"
             android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userNameProfile" />
+    </LinearLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
 
-        <TextView
-            android:id="@+id/savedBlog"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/saveBlogsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16sp"
-            android:layout_marginTop="46dp"
-            android:layout_weight="1"
-            android:elevation="8sp"
-            android:padding="8sp"
-            android:background="@drawable/img_bg"
-            android:text="Saved Blog"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            app:drawableEndCompat="@drawable/forward_icon"
-            app:drawableStartCompat="@drawable/file_icon"
+            android:padding="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userEmailProfile" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/logoutBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_marginTop="12sp"
-            android:layout_weight="1"
-            android:elevation="8sp"
-            android:padding="8sp"
-            android:background="@drawable/img_bg"
-            android:text="Logout"
-            android:textAlignment="center"
-            app:drawableEndCompat="@drawable/forward_icon"
-            app:drawableStartCompat="@drawable/logout_icon"
+        <ProgressBar
+            android:id="@+id/progress_bar_save"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/savedBlog" />
-
-        <TextView
-            android:id="@+id/aboutUs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_marginTop="12sp"
-            android:layout_weight="1"
-            android:background="@drawable/img_bg"
-            android:elevation="8sp"
-            android:padding="8sp"
-            android:text="Setting"
-            android:textAlignment="center"
-            android:textColor="@color/dark_gray"
-            app:drawableEndCompat="@drawable/forward_icon"
-            app:drawableStartCompat="@drawable/setting_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logoutBtn" />
-
-        <TextView
-            android:id="@+id/setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_marginTop="12sp"
-            android:layout_weight="1"
-            android:background="@drawable/img_bg"
-            android:elevation="8sp"
-            android:padding="8sp"
-            android:text="About Us"
-            android:textAlignment="center"
-            android:textColor="@color/dark_gray"
-            app:drawableEndCompat="@drawable/forward_icon"
-            app:drawableStartCompat="@drawable/about_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/aboutUs" />
-
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

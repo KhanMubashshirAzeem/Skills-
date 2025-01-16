@@ -10,9 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.skills_plus.adapter.AllBlogAdapter;
+import com.example.skills_plus.adapter.CommunityBlogAdapter;
 import com.example.skills_plus.databinding.FragmentCommunityBinding;
-import com.example.skills_plus.modal.AllBlogModal;
+import com.example.skills_plus.modal.CommunityBlogModal;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,9 +25,9 @@ import java.util.List;
 public class CommunityFragment extends Fragment {
 
     private FragmentCommunityBinding binding;
-    private AllBlogAdapter adapter;
-    private List<AllBlogModal> allBlogsList = new ArrayList<>();
-    private List<AllBlogModal> filteredBlogsList = new ArrayList<>();
+    private CommunityBlogAdapter adapter;
+    private List<CommunityBlogModal> allBlogsList = new ArrayList<>();
+    private List<CommunityBlogModal> filteredBlogsList = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class CommunityFragment extends Fragment {
     }
 
     private void initializeRecyclerView() {
-        adapter = new AllBlogAdapter(getContext(), filteredBlogsList); // Use filtered list for displaying blogs
+        adapter = new CommunityBlogAdapter(getContext(), filteredBlogsList); // Use filtered list for displaying blogs
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.rvAllBlogs.setLayoutManager(layoutManager);
         binding.rvAllBlogs.setAdapter(adapter);
@@ -65,7 +65,7 @@ public class CommunityFragment extends Fragment {
                 filteredBlogsList.clear();
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    AllBlogModal blog = dataSnapshot.getValue(AllBlogModal.class);
+                    CommunityBlogModal blog = dataSnapshot.getValue(CommunityBlogModal.class);
                     if (blog != null) {
                         allBlogsList.add(blog);
                         filteredBlogsList.add(blog);
@@ -102,7 +102,7 @@ public class CommunityFragment extends Fragment {
 
     private void filterBlogs(String query) {
         filteredBlogsList.clear();
-        for (AllBlogModal blog : allBlogsList) {
+        for (CommunityBlogModal blog : allBlogsList) {
             if (blog.getTitle() != null && blog.getTitle().toLowerCase().contains(query.toLowerCase())) {
                 filteredBlogsList.add(blog);
             }
